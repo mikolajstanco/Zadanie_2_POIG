@@ -7,7 +7,6 @@ using System.Data;
 public partial class Form1 : Form
 {
     MagazynDanych magazyn = new MagazynDanych();
-    Walidator walidator = new Walidator();
     public Form1()
     {
         InitializeComponent();
@@ -163,17 +162,12 @@ public partial class Form1 : Form
         textBox_iloscMiejsc.Clear();
     }
 
-    private void label9_Click(object sender, EventArgs e)
-    {
-        throw new System.NotImplementedException();
-    }
-
     private void combo_box_wydzialRezerwacja_SelectedIndexChanged(object sender, EventArgs e)
     {
         List<Sala> listaSalNaWydziale = new List<Sala>();
         foreach (Sala sala in magazyn.Dane.Sale)
         {
-            if (sala.NazwaWydzialu == combo_box_wydzialRezerwacja.SelectedItem)
+            if (sala.Wydzial == combo_box_wydzialRezerwacja.SelectedItem)
             {
                 listaSalNaWydziale.Add(sala);
             }
@@ -284,13 +278,28 @@ public partial class Form1 : Form
         MessageBox.Show("Pomyślnie zarezerwowano salę", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void button_usunRezerwacje(object sender, EventArgs e)
     {
         Rezerwacja wybranaRezerwacja = (Rezerwacja)listBox_rezerwacjeAll.SelectedItem;
         if (wybranaRezerwacja != null)
         {
-            magazyn.Dane.Rezerwacje.Remove(wybranaRezerwacja);
-            button_Szukaj_Click(null, null);
+            DialogResult decyzja = MessageBox.Show("Czy na pewno chcesz usunąć tę rezerwację?", "Potwierdzenie", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (decyzja == DialogResult.Yes)
+            {
+                magazyn.Dane.Rezerwacje.Remove(wybranaRezerwacja);
+                button_Szukaj_Click(null, null);
+                MessageBox.Show("Usunięto pomyślnie.");
+            }
+            else
+            {
+                return;
+            }
+         
+        }
+        else
+        {
+            MessageBox.Show("Nie wybrano żadnej rezerwacji do usunięcia.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
         }
     }
 
@@ -314,7 +323,7 @@ public partial class Form1 : Form
 
         if (decyzja == DialogResult.Yes)
         {
-            var saleDoUsuniecia = magazyn.Dane.Sale.Where(s => s.NazwaWydzialu == wybranyWydzial).ToList();
+            var saleDoUsuniecia = magazyn.Dane.Sale.Where(s => s.Wydzial == wybranyWydzial).ToList();
 
             foreach (Sala sala in saleDoUsuniecia)
             {

@@ -7,8 +7,8 @@ public class Prowadzacy
     public Prowadzacy() { }
     public Prowadzacy(string imie, string nazwisko)
     {
-        this.Imie = imie;
-        this.Nazwisko = nazwisko;
+        Imie = imie;
+        Nazwisko = nazwisko;
     }
 
     public override string ToString()

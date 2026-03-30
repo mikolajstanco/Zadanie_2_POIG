@@ -2,7 +2,7 @@ namespace Zadanie_2_POIG;
 
 public class Sala
 {
-    public Wydzial NazwaWydzialu { get; set; }
+    public Wydzial Wydzial { get; set; }
     public TypSali TypSali { get; set; }
     public int IloscMiejsc { get; set; }
     public string NumerSali { get; set; }
@@ -10,7 +10,7 @@ public class Sala
     public Sala() { }
     public Sala(Wydzial nazwaWydzialu, TypSali typSali, int iloscMiejsc, string numerSali)
     {
-        NazwaWydzialu = nazwaWydzialu;
+        Wydzial = nazwaWydzialu;
         TypSali = typSali;
         IloscMiejsc = iloscMiejsc;
         NumerSali = numerSali;
@@ -18,6 +18,6 @@ public class Sala
 
     public override string ToString()
     {
-        return $"{NazwaWydzialu} -  {TypSali} - {IloscMiejsc} -  {NumerSali}";
+        return $"{Wydzial} -  {TypSali} - {IloscMiejsc} -  {NumerSali}";
     }
 }

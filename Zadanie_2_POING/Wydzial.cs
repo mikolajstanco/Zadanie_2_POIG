@@ -15,4 +15,12 @@ public class Wydzial
     {
         return nazwa;
     }
+
+    public string PelneDane
+    {
+        get
+        {
+            return $"Nazwa: {nazwa} | Adres: {adres.Miasto}, {adres.KodPocztowy}, {adres.Ulica} {adres.NumerBudynku}";
+        }
+    }
 }

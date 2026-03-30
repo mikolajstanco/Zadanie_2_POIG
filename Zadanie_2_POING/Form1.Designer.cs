@@ -78,13 +78,25 @@ partial class Form1
         comboBox_prowadzacyRezerwacja = new ComboBox();
         label8 = new Label();
         TabZarzadzanieRezerwacjami = new TabPage();
+        label20 = new Label();
+        label19 = new Label();
+        label18 = new Label();
+        button2 = new Button();
+        dateTimePicker2 = new DateTimePicker();
+        comboBox_FiltrTypSali = new ComboBox();
+        comboBox_FiltrWydzial = new ComboBox();
+        comboBox_FiltrProwadzacy = new ComboBox();
+        button1 = new Button();
         listBox_rezerwacjeAll = new ListBox();
         rezerwacjaBindingSource = new BindingSource(components);
         TabWszystkieInformacje = new TabPage();
         tabControl1 = new TabControl();
-        tabPage1 = new TabPage();
-        tabPage2 = new TabPage();
-        panel_ReservationLive = new Panel();
+        Wydziały = new TabPage();
+        listBox_infoWydzialy = new ListBox();
+        Sale = new TabPage();
+        listBox_infoSale = new ListBox();
+        Prowadzący = new TabPage();
+        listBox_infoProwadzacy = new ListBox();
         tab.SuspendLayout();
         TabDodajInformacje.SuspendLayout();
         groupBox3.SuspendLayout();
@@ -96,12 +108,15 @@ partial class Form1
         ((System.ComponentModel.ISupportInitialize)rezerwacjaBindingSource).BeginInit();
         TabWszystkieInformacje.SuspendLayout();
         tabControl1.SuspendLayout();
+        Wydziały.SuspendLayout();
+        Sale.SuspendLayout();
+        Prowadzący.SuspendLayout();
         SuspendLayout();
         // 
         // combo_box_wydzialRezerwacja
         // 
         combo_box_wydzialRezerwacja.FormattingEnabled = true;
-        combo_box_wydzialRezerwacja.Location = new Point(139, 81);
+        combo_box_wydzialRezerwacja.Location = new Point(141, 137);
         combo_box_wydzialRezerwacja.Name = "combo_box_wydzialRezerwacja";
         combo_box_wydzialRezerwacja.Size = new Size(335, 23);
         combo_box_wydzialRezerwacja.TabIndex = 0;
@@ -110,7 +125,7 @@ partial class Form1
         // 
         // label1
         // 
-        label1.Location = new Point(51, 82);
+        label1.Location = new Point(53, 138);
         label1.Name = "label1";
         label1.Size = new Size(60, 23);
         label1.TabIndex = 1;
@@ -410,7 +425,6 @@ partial class Form1
         // TabZarezerwujSale
         // 
         TabZarezerwujSale.AutoScroll = true;
-        TabZarezerwujSale.Controls.Add(panel_ReservationLive);
         TabZarezerwujSale.Controls.Add(button_zarezerwuj);
         TabZarezerwujSale.Controls.Add(listaSalNaWybranymWydziale);
         TabZarezerwujSale.Controls.Add(dateTimePicker_godzinaZakonczenia);
@@ -434,7 +448,7 @@ partial class Form1
         // 
         // button_zarezerwuj
         // 
-        button_zarezerwuj.Location = new Point(51, 220);
+        button_zarezerwuj.Location = new Point(53, 283);
         button_zarezerwuj.Name = "button_zarezerwuj";
         button_zarezerwuj.Size = new Size(423, 37);
         button_zarezerwuj.TabIndex = 13;
@@ -450,6 +464,7 @@ partial class Form1
         listaSalNaWybranymWydziale.Name = "listaSalNaWybranymWydziale";
         listaSalNaWybranymWydziale.Size = new Size(384, 409);
         listaSalNaWybranymWydziale.TabIndex = 12;
+        listaSalNaWybranymWydziale.SelectedIndexChanged += listaSalNaWybranymWydziale_SelectedIndexChanged;
         // 
         // salaBindingSource
         // 
@@ -459,7 +474,7 @@ partial class Form1
         // 
         dateTimePicker_godzinaZakonczenia.CustomFormat = "HH:mm";
         dateTimePicker_godzinaZakonczenia.Format = DateTimePickerFormat.Custom;
-        dateTimePicker_godzinaZakonczenia.Location = new Point(403, 161);
+        dateTimePicker_godzinaZakonczenia.Location = new Point(405, 217);
         dateTimePicker_godzinaZakonczenia.Name = "dateTimePicker_godzinaZakonczenia";
         dateTimePicker_godzinaZakonczenia.ShowUpDown = true;
         dateTimePicker_godzinaZakonczenia.Size = new Size(71, 23);
@@ -469,7 +484,7 @@ partial class Form1
         // 
         dateTimePicker_godzinaRozpoczecia.CustomFormat = "HH:mm";
         dateTimePicker_godzinaRozpoczecia.Format = DateTimePickerFormat.Custom;
-        dateTimePicker_godzinaRozpoczecia.Location = new Point(180, 161);
+        dateTimePicker_godzinaRozpoczecia.Location = new Point(182, 217);
         dateTimePicker_godzinaRozpoczecia.Name = "dateTimePicker_godzinaRozpoczecia";
         dateTimePicker_godzinaRozpoczecia.ShowUpDown = true;
         dateTimePicker_godzinaRozpoczecia.Size = new Size(71, 23);
@@ -477,7 +492,7 @@ partial class Form1
         // 
         // label12
         // 
-        label12.Location = new Point(264, 167);
+        label12.Location = new Point(266, 223);
         label12.Name = "label12";
         label12.Size = new Size(133, 23);
         label12.TabIndex = 9;
@@ -485,7 +500,7 @@ partial class Form1
         // 
         // label11
         // 
-        label11.Location = new Point(51, 167);
+        label11.Location = new Point(53, 223);
         label11.Name = "label11";
         label11.Size = new Size(133, 23);
         label11.TabIndex = 8;
@@ -493,14 +508,14 @@ partial class Form1
         // 
         // dateTimePicker1
         // 
-        dateTimePicker1.Location = new Point(139, 121);
+        dateTimePicker1.Location = new Point(141, 177);
         dateTimePicker1.Name = "dateTimePicker1";
         dateTimePicker1.Size = new Size(335, 23);
         dateTimePicker1.TabIndex = 7;
         // 
         // label10
         // 
-        label10.Location = new Point(51, 127);
+        label10.Location = new Point(53, 183);
         label10.Name = "label10";
         label10.Size = new Size(88, 23);
         label10.TabIndex = 6;
@@ -518,14 +533,14 @@ partial class Form1
         // comboBox_prowadzacyRezerwacja
         // 
         comboBox_prowadzacyRezerwacja.FormattingEnabled = true;
-        comboBox_prowadzacyRezerwacja.Location = new Point(139, 42);
+        comboBox_prowadzacyRezerwacja.Location = new Point(141, 98);
         comboBox_prowadzacyRezerwacja.Name = "comboBox_prowadzacyRezerwacja";
         comboBox_prowadzacyRezerwacja.Size = new Size(335, 23);
         comboBox_prowadzacyRezerwacja.TabIndex = 3;
         // 
         // label8
         // 
-        label8.Location = new Point(51, 45);
+        label8.Location = new Point(53, 101);
         label8.Name = "label8";
         label8.Size = new Size(82, 23);
         label8.TabIndex = 2;
@@ -533,6 +548,15 @@ partial class Form1
         // 
         // TabZarzadzanieRezerwacjami
         // 
+        TabZarzadzanieRezerwacjami.Controls.Add(label20);
+        TabZarzadzanieRezerwacjami.Controls.Add(label19);
+        TabZarzadzanieRezerwacjami.Controls.Add(label18);
+        TabZarzadzanieRezerwacjami.Controls.Add(button2);
+        TabZarzadzanieRezerwacjami.Controls.Add(dateTimePicker2);
+        TabZarzadzanieRezerwacjami.Controls.Add(comboBox_FiltrTypSali);
+        TabZarzadzanieRezerwacjami.Controls.Add(comboBox_FiltrWydzial);
+        TabZarzadzanieRezerwacjami.Controls.Add(comboBox_FiltrProwadzacy);
+        TabZarzadzanieRezerwacjami.Controls.Add(button1);
         TabZarzadzanieRezerwacjami.Controls.Add(listBox_rezerwacjeAll);
         TabZarzadzanieRezerwacjami.Location = new Point(4, 24);
         TabZarzadzanieRezerwacjami.Name = "TabZarzadzanieRezerwacjami";
@@ -542,13 +566,92 @@ partial class Form1
         TabZarzadzanieRezerwacjami.Text = "Zarzadzanie Rezerwacjami";
         TabZarzadzanieRezerwacjami.UseVisualStyleBackColor = true;
         // 
+        // label20
+        // 
+        label20.AutoSize = true;
+        label20.Location = new Point(496, 25);
+        label20.Name = "label20";
+        label20.Size = new Size(47, 15);
+        label20.TabIndex = 9;
+        label20.Text = "Typ Sali";
+        // 
+        // label19
+        // 
+        label19.AutoSize = true;
+        label19.Location = new Point(286, 25);
+        label19.Name = "label19";
+        label19.Size = new Size(48, 15);
+        label19.TabIndex = 8;
+        label19.Text = "Wydział";
+        // 
+        // label18
+        // 
+        label18.AutoSize = true;
+        label18.Location = new Point(49, 25);
+        label18.Name = "label18";
+        label18.Size = new Size(70, 15);
+        label18.TabIndex = 7;
+        label18.Text = "Prowadzący";
+        // 
+        // button2
+        // 
+        button2.Location = new Point(850, 46);
+        button2.Name = "button2";
+        button2.Size = new Size(75, 23);
+        button2.TabIndex = 6;
+        button2.Text = "Szukaj";
+        button2.UseVisualStyleBackColor = true;
+        button2.Click += button_Szukaj_Click;
+        // 
+        // dateTimePicker2
+        // 
+        dateTimePicker2.Location = new Point(618, 46);
+        dateTimePicker2.Name = "dateTimePicker2";
+        dateTimePicker2.Size = new Size(226, 23);
+        dateTimePicker2.TabIndex = 5;
+        // 
+        // comboBox_FiltrTypSali
+        // 
+        comboBox_FiltrTypSali.FormattingEnabled = true;
+        comboBox_FiltrTypSali.Location = new Point(441, 46);
+        comboBox_FiltrTypSali.Name = "comboBox_FiltrTypSali";
+        comboBox_FiltrTypSali.Size = new Size(154, 23);
+        comboBox_FiltrTypSali.TabIndex = 4;
+        comboBox_FiltrTypSali.SelectedIndexChanged += comboBox_FiltrTypSali_SelectedIndexChanged;
+        // 
+        // comboBox_FiltrWydzial
+        // 
+        comboBox_FiltrWydzial.FormattingEnabled = true;
+        comboBox_FiltrWydzial.Location = new Point(213, 46);
+        comboBox_FiltrWydzial.Name = "comboBox_FiltrWydzial";
+        comboBox_FiltrWydzial.Size = new Size(199, 23);
+        comboBox_FiltrWydzial.TabIndex = 3;
+        // 
+        // comboBox_FiltrProwadzacy
+        // 
+        comboBox_FiltrProwadzacy.FormattingEnabled = true;
+        comboBox_FiltrProwadzacy.Location = new Point(8, 46);
+        comboBox_FiltrProwadzacy.Name = "comboBox_FiltrProwadzacy";
+        comboBox_FiltrProwadzacy.Size = new Size(173, 23);
+        comboBox_FiltrProwadzacy.TabIndex = 2;
+        // 
+        // button1
+        // 
+        button1.Location = new Point(933, 208);
+        button1.Name = "button1";
+        button1.Size = new Size(75, 75);
+        button1.TabIndex = 1;
+        button1.Text = "Usuń";
+        button1.UseVisualStyleBackColor = true;
+        button1.Click += button1_Click;
+        // 
         // listBox_rezerwacjeAll
         // 
         listBox_rezerwacjeAll.DataSource = rezerwacjaBindingSource;
         listBox_rezerwacjeAll.FormattingEnabled = true;
-        listBox_rezerwacjeAll.Location = new Point(0, 0);
+        listBox_rezerwacjeAll.Location = new Point(8, 75);
         listBox_rezerwacjeAll.Name = "listBox_rezerwacjeAll";
-        listBox_rezerwacjeAll.Size = new Size(1014, 409);
+        listBox_rezerwacjeAll.Size = new Size(917, 394);
         listBox_rezerwacjeAll.TabIndex = 0;
         // 
         // rezerwacjaBindingSource
@@ -567,40 +670,68 @@ partial class Form1
         // 
         // tabControl1
         // 
-        tabControl1.Controls.Add(tabPage1);
-        tabControl1.Controls.Add(tabPage2);
+        tabControl1.Controls.Add(Wydziały);
+        tabControl1.Controls.Add(Sale);
+        tabControl1.Controls.Add(Prowadzący);
         tabControl1.Location = new Point(3, 3);
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
         tabControl1.Size = new Size(992, 387);
         tabControl1.TabIndex = 0;
         // 
-        // tabPage1
+        // Wydziały
         // 
-        tabPage1.Location = new Point(4, 24);
-        tabPage1.Name = "tabPage1";
-        tabPage1.Padding = new Padding(3);
-        tabPage1.Size = new Size(984, 359);
-        tabPage1.TabIndex = 0;
-        tabPage1.Text = "tabPage1";
-        tabPage1.UseVisualStyleBackColor = true;
+        Wydziały.Controls.Add(listBox_infoWydzialy);
+        Wydziały.Location = new Point(4, 24);
+        Wydziały.Name = "Wydziały";
+        Wydziały.Size = new Size(984, 359);
+        Wydziały.TabIndex = 0;
+        Wydziały.Text = "Wydziały";
+        Wydziały.UseVisualStyleBackColor = true;
         // 
-        // tabPage2
+        // listBox_infoWydzialy
         // 
-        tabPage2.Location = new Point(4, 24);
-        tabPage2.Name = "tabPage2";
-        tabPage2.Padding = new Padding(3);
-        tabPage2.Size = new Size(984, 359);
-        tabPage2.TabIndex = 1;
-        tabPage2.Text = "tabPage2";
-        tabPage2.UseVisualStyleBackColor = true;
+        listBox_infoWydzialy.FormattingEnabled = true;
+        listBox_infoWydzialy.Location = new Point(0, 0);
+        listBox_infoWydzialy.Name = "listBox_infoWydzialy";
+        listBox_infoWydzialy.Size = new Size(984, 364);
+        listBox_infoWydzialy.TabIndex = 0;
         // 
-        // panel_ReservationLive
+        // Sale
         // 
-        panel_ReservationLive.Location = new Point(51, 289);
-        panel_ReservationLive.Name = "panel_ReservationLive";
-        panel_ReservationLive.Size = new Size(423, 162);
-        panel_ReservationLive.TabIndex = 14;
+        Sale.Controls.Add(listBox_infoSale);
+        Sale.Location = new Point(4, 24);
+        Sale.Name = "Sale";
+        Sale.Size = new Size(984, 359);
+        Sale.TabIndex = 1;
+        Sale.Text = "Sale";
+        Sale.UseVisualStyleBackColor = true;
+        // 
+        // listBox_infoSale
+        // 
+        listBox_infoSale.FormattingEnabled = true;
+        listBox_infoSale.Location = new Point(0, 0);
+        listBox_infoSale.Name = "listBox_infoSale";
+        listBox_infoSale.Size = new Size(988, 364);
+        listBox_infoSale.TabIndex = 0;
+        // 
+        // Prowadzący
+        // 
+        Prowadzący.Controls.Add(listBox_infoProwadzacy);
+        Prowadzący.Location = new Point(4, 24);
+        Prowadzący.Name = "Prowadzący";
+        Prowadzący.Size = new Size(984, 359);
+        Prowadzący.TabIndex = 2;
+        Prowadzący.Text = "Prowadzący";
+        Prowadzący.UseVisualStyleBackColor = true;
+        // 
+        // listBox_infoProwadzacy
+        // 
+        listBox_infoProwadzacy.FormattingEnabled = true;
+        listBox_infoProwadzacy.Location = new Point(0, 0);
+        listBox_infoProwadzacy.Name = "listBox_infoProwadzacy";
+        listBox_infoProwadzacy.Size = new Size(988, 364);
+        listBox_infoProwadzacy.TabIndex = 0;
         // 
         // Form1
         // 
@@ -622,9 +753,13 @@ partial class Form1
         TabZarezerwujSale.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)salaBindingSource).EndInit();
         TabZarzadzanieRezerwacjami.ResumeLayout(false);
+        TabZarzadzanieRezerwacjami.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)rezerwacjaBindingSource).EndInit();
         TabWszystkieInformacje.ResumeLayout(false);
         tabControl1.ResumeLayout(false);
+        Wydziały.ResumeLayout(false);
+        Sale.ResumeLayout(false);
+        Prowadzący.ResumeLayout(false);
         ResumeLayout(false);
     }
 
@@ -681,8 +816,6 @@ partial class Form1
     private ListBox listaSalNaWybranymWydziale;
     private BindingSource salaBindingSource;
     private TabControl tabControl1;
-    private TabPage tabPage1;
-    private TabPage tabPage2;
     private TextBox textBox_dodajWydzialNazwa;
     private Label label6;
     private Button button_dodajWydzial;
@@ -699,5 +832,19 @@ partial class Form1
     private Button button_zarezerwuj;
     private ListBox listBox_rezerwacjeAll;
     private BindingSource rezerwacjaBindingSource;
-    private Panel panel_ReservationLive;
+    private TabPage Wydziały;
+    private ListBox listBox_infoWydzialy;
+    private TabPage Sale;
+    private ListBox listBox_infoSale;
+    private TabPage Prowadzący;
+    private ListBox listBox_infoProwadzacy;
+    private Button button1;
+    private Label label18;
+    private Button button2;
+    private DateTimePicker dateTimePicker2;
+    private ComboBox comboBox_FiltrTypSali;
+    private ComboBox comboBox_FiltrWydzial;
+    private ComboBox comboBox_FiltrProwadzacy;
+    private Label label20;
+    private Label label19;
 }

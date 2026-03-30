@@ -1,72 +1,65 @@
 namespace Zadanie_2_POIG;
 
+using System.Linq;
 using System.ComponentModel;
-using System.Data; // Dodane dla list LINQ
+using System.Data;
 
 public partial class Form1 : Form
 {
-    BindingList<Wydzial> listaWydzialow = new BindingList<Wydzial>();
-    BindingList<Prowadzacy> listaProwadzacych = new BindingList<Prowadzacy>();
-    BindingList<Sala> listaSal = new BindingList<Sala>();
-    BindingList<Rezerwacja> listaRezerwacji = new BindingList<Rezerwacja>();
+    MagazynDanych magazyn = new MagazynDanych();
 
     public Form1()
     {
         InitializeComponent();
 
-        // Testowe Obiekty
-        Wydzial testowyWydzial = new Wydzial("Matematyki Stosowanej", new Adres("Gliwice", "Kaszubska", 23, "44-100"));
-        listaWydzialow.Add(testowyWydzial);
-        Prowadzacy testowyProwadzacy = new Prowadzacy("Grzegorz", "Brzęczyszczykiewicz");
+        if (magazyn.Dane.Wydzialy.Count == 0)
+        {
+            Wydzial testowyWydzial = new Wydzial("Matematyki Stosowanej", new Adres("Gliwice", "Kaszubska", 23, "44-100"));
+            magazyn.Dane.Wydzialy.Add(testowyWydzial);
 
-        listaSal.Add(new Sala(testowyWydzial, TypSali.Komputerowa, 13, "37a"));
-        listaProwadzacych.Add(testowyProwadzacy);
+            Prowadzacy testowyProwadzacy = new Prowadzacy("Grzegorz", "Brzęczyszczykiewicz");
+            magazyn.Dane.Prowadzacy.Add(testowyProwadzacy);
 
-        DateOnly data = new DateOnly(2026, 03, 30);
-        TimeOnly godzinaRozpoczecia = new TimeOnly(10, 0);
-        TimeOnly godzinaZakonczenia = new TimeOnly(12, 0);
+            magazyn.Dane.Sale.Add(new Sala(testowyWydzial, TypSali.Komputerowa, 13, "37a"));
 
-        listaRezerwacji.Add(new Rezerwacja(testowyProwadzacy, testowyWydzial, listaSal[0], data, godzinaRozpoczecia, godzinaZakonczenia));
+            DateOnly data = new DateOnly(2026, 03, 30);
+            TimeOnly godzinaRozpoczecia = new TimeOnly(10, 0);
+            TimeOnly godzinaZakonczenia = new TimeOnly(12, 0);
 
-        listaWydzialow.Add(new Wydzial("Automatyki Elektroniki i Informatyki", new Adres("Gliwice", "Akademicka", 16, "44-100")));
-        listaWydzialow.Add(new Wydzial("Budownictwa", new Adres("Gliwice", "Akademicka", 5, "44-100")));
+            magazyn.Dane.Rezerwacje.Add(new Rezerwacja(testowyProwadzacy, testowyWydzial, magazyn.Dane.Sale[0], data, godzinaRozpoczecia, godzinaZakonczenia));
 
-        // Dodaj informacje
-        ComboBox_Wydzialy_dodajSale.DataSource = listaWydzialow;
+            magazyn.Dane.Wydzialy.Add(new Wydzial("Automatyki Elektroniki i Informatyki", new Adres("Gliwice", "Akademicka", 16, "44-100")));
+            magazyn.Dane.Wydzialy.Add(new Wydzial("Budownictwa", new Adres("Gliwice", "Akademicka", 5, "44-100")));
+        }
+
+        ComboBox_Wydzialy_dodajSale.DataSource = magazyn.Dane.Wydzialy;
         ComboBox_TypSali.DataSource = Enum.GetValues(typeof(TypSali));
 
-        // Rezerwacja
-        combo_box_wydzialRezerwacja.DataSource = listaWydzialow;
-        comboBox_prowadzacyRezerwacja.DataSource = listaProwadzacych;
+        combo_box_wydzialRezerwacja.DataSource = magazyn.Dane.Wydzialy;
+        comboBox_prowadzacyRezerwacja.DataSource = magazyn.Dane.Prowadzacy;
 
-        // Info (Wszystkie informacje)
-        listBox_infoWydzialy.DataSource = listaWydzialow;
-        // listBox_infoWydzialy.DisplayMember = "PelneDane"; // Zakomentowane, dopóki nie dodasz właściwości PelneDane do klasy Wydzial
-        listBox_infoProwadzacy.DataSource = listaProwadzacych;
-        listBox_infoSale.DataSource = listaSal;
+        listBox_infoWydzialy.DataSource = magazyn.Dane.Wydzialy;
+        listBox_infoWydzialy.DisplayMember = "PelneDane";
 
-        // Ustawienie domyślnego widoku wszystkich rezerwacji
-        listBox_rezerwacjeAll.DataSource = listaRezerwacji;
+        listBox_infoProwadzacy.DataSource = magazyn.Dane.Prowadzacy;
+        listBox_infoSale.DataSource = magazyn.Dane.Sale;
+        listBox_rezerwacjeAll.DataSource = magazyn.Dane.Rezerwacje;
 
         OdswiezFiltry();
     }
 
-
     private void OdswiezFiltry()
     {
-        // 1. Filtr Prowadzący
         List<Prowadzacy> filtrProwadzacy = new List<Prowadzacy>();
         filtrProwadzacy.Add(new Prowadzacy("--- Wszyscy ---", ""));
-        filtrProwadzacy.AddRange(listaProwadzacych);
+        filtrProwadzacy.AddRange(magazyn.Dane.Prowadzacy);
         comboBox_FiltrProwadzacy.DataSource = filtrProwadzacy;
 
-        // 2. Filtr Wydziały
         List<Wydzial> filtrWydzialy = new List<Wydzial>();
         filtrWydzialy.Add(new Wydzial("--- Wszystkie ---", new Adres("", "", 0, "")));
-        filtrWydzialy.AddRange(listaWydzialow);
+        filtrWydzialy.AddRange(magazyn.Dane.Wydzialy);
         comboBox_FiltrWydzial.DataSource = filtrWydzialy;
 
-        // 3. Filtr Typ Sali
         List<string> filtrTypSali = new List<string>();
         filtrTypSali.Add("--- Wszystkie ---");
         foreach (TypSali typ in Enum.GetValues(typeof(TypSali)))
@@ -76,12 +69,11 @@ public partial class Form1 : Form
         comboBox_FiltrTypSali.DataSource = filtrTypSali;
     }
 
-
     private void button_Szukaj_Click(object sender, EventArgs e)
     {
         List<Rezerwacja> przefiltrowaneRezerwacje = new List<Rezerwacja>();
 
-        foreach (Rezerwacja rez in listaRezerwacji)
+        foreach (Rezerwacja rez in magazyn.Dane.Rezerwacje)
         {
             bool pasujeProwadzacy = true;
             bool pasujeWydzial = true;
@@ -111,7 +103,6 @@ public partial class Form1 : Form
             }
         }
 
-
         listBox_rezerwacjeAll.DataSource = przefiltrowaneRezerwacje;
     }
 
@@ -124,10 +115,12 @@ public partial class Form1 : Form
     {
         string imie = textBox_imieProwadzacego.Text;
         string nazwisko = textBox_nazwiskoProwadzacego.Text;
-        listaProwadzacych.Add(new Prowadzacy(imie, nazwisko));
+
+        // Dodajemy do magazynu! Zapis do pliku robi się SAM w tle.
+        magazyn.Dane.Prowadzacy.Add(new Prowadzacy(imie, nazwisko));
+
         textBox_imieProwadzacego.Clear();
         textBox_nazwiskoProwadzacego.Clear();
-
         OdswiezFiltry();
     }
 
@@ -135,7 +128,9 @@ public partial class Form1 : Form
     {
         string numerSali = text_NumerSali.Text;
         int iloscMiejsc = int.Parse(textBox_iloscMiejsc.Text);
-        listaSal.Add(new Sala((Wydzial)ComboBox_Wydzialy_dodajSale.SelectedItem, (TypSali)ComboBox_TypSali.SelectedItem, iloscMiejsc, numerSali));
+
+        magazyn.Dane.Sale.Add(new Sala((Wydzial)ComboBox_Wydzialy_dodajSale.SelectedItem, (TypSali)ComboBox_TypSali.SelectedItem, iloscMiejsc, numerSali));
+
         text_NumerSali.Clear();
         textBox_iloscMiejsc.Clear();
     }
@@ -148,7 +143,7 @@ public partial class Form1 : Form
     private void combo_box_wydzialRezerwacja_SelectedIndexChanged(object sender, EventArgs e)
     {
         List<Sala> listaSalNaWydziale = new List<Sala>();
-        foreach (Sala sala in listaSal)
+        foreach (Sala sala in magazyn.Dane.Sale)
         {
             if (sala.NazwaWydzialu == combo_box_wydzialRezerwacja.SelectedItem)
             {
@@ -168,7 +163,7 @@ public partial class Form1 : Form
         string ulica = textBox_dodajWydzialUlica.Text;
         string numer = textBox_dodajWydzialNumer.Text;
 
-        listaWydzialow.Add(new Wydzial(nazwaWydzialu, new Adres(miasto, ulica, int.Parse(numer), kod)));
+        magazyn.Dane.Wydzialy.Add(new Wydzial(nazwaWydzialu, new Adres(miasto, ulica, int.Parse(numer), kod)));
 
         textBox_dodajWydzialNazwa.Clear();
         textBox_dodajWydzialMiasto.Clear();
@@ -176,8 +171,6 @@ public partial class Form1 : Form
         textBox_dodajWydzialKod2.Clear();
         textBox_dodajWydzialUlica.Clear();
         textBox_dodajWydzialNumer.Clear();
-
-        // Aktualizujemy filtry po dodaniu nowego!
         OdswiezFiltry();
     }
 
@@ -189,7 +182,7 @@ public partial class Form1 : Form
         TimeOnly godzinaRozpoczecia = TimeOnly.Parse(dateTimePicker_godzinaRozpoczecia.Text);
         TimeOnly godzinaZakonczenia = TimeOnly.Parse(dateTimePicker_godzinaZakonczenia.Text);
 
-        foreach (Rezerwacja rezka in listaRezerwacji)
+        foreach (Rezerwacja rezka in magazyn.Dane.Rezerwacje)
         {
             if (rezka.Sala == (Sala)listaSalNaWybranymWydziale.SelectedItem && rezka.Data == data)
             {
@@ -203,7 +196,7 @@ public partial class Form1 : Form
             }
         }
 
-        listaRezerwacji.Add(new Rezerwacja(prowadzacy, wydzial, (Sala)listaSalNaWybranymWydziale.SelectedItem, data, godzinaRozpoczecia, godzinaZakonczenia));
+        magazyn.Dane.Rezerwacje.Add(new Rezerwacja(prowadzacy, wydzial, (Sala)listaSalNaWybranymWydziale.SelectedItem, data, godzinaRozpoczecia, godzinaZakonczenia));
         MessageBox.Show("Pomyślnie zarezerwowano salę");
     }
 
@@ -217,18 +210,80 @@ public partial class Form1 : Form
         Rezerwacja wybranaRezerwacja = (Rezerwacja)listBox_rezerwacjeAll.SelectedItem;
         if (wybranaRezerwacja != null)
         {
-            listaRezerwacji.Remove(wybranaRezerwacja);
+            magazyn.Dane.Rezerwacje.Remove(wybranaRezerwacja);
             button_Szukaj_Click(null, null);
         }
     }
 
-    private void button2_Click(object sender, EventArgs e)
-    {
+    private void button2_Click(object sender, EventArgs e) { }
+    private void comboBox_FiltrTypSali_SelectedIndexChanged(object sender, EventArgs e) { }
 
+    private void button_usunWydzial_Click(object sender, EventArgs e)
+    {
+        Wydzial wybranyWydzial = (Wydzial)listBox_infoWydzialy.SelectedItem;
+
+        // Zabezpieczenie, jeśli użytkownik nic nie zaznaczył
+        if (wybranyWydzial == null) return;
+
+        foreach (Rezerwacja rez in magazyn.Dane.Rezerwacje)
+        {
+            if (rez.Wydzial == wybranyWydzial)
+            {
+                MessageBox.Show("Nie można usunąć wydziału, który ma aktywne rezerwacje. Proszę najpierw usunąć jego rezerwacje.");
+                return;
+            }
+        }
+
+        DialogResult decyzja = MessageBox.Show("Usunięcie wydziału spowoduje usunięcie podpiętych sal. Czy kontynuować?", "Potwierdzenie", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+        if (decyzja == DialogResult.Yes)
+        {
+            var saleDoUsuniecia = magazyn.Dane.Sale.Where(s => s.NazwaWydzialu == wybranyWydzial).ToList();
+
+            foreach (Sala sala in saleDoUsuniecia)
+            {
+                magazyn.Dane.Sale.Remove(sala);
+            }
+
+            magazyn.Dane.Wydzialy.Remove(wybranyWydzial);
+
+            MessageBox.Show("Pomyślnie usunięto wydział i sale");
+        }
     }
 
-    private void comboBox_FiltrTypSali_SelectedIndexChanged(object sender, EventArgs e)
+    private void button_usunProwadzacego_Click(object sender, EventArgs e)
     {
+        Prowadzacy wybranyProwadzacy = (Prowadzacy)listBox_infoProwadzacy.SelectedItem;
 
+        if (wybranyProwadzacy == null) return;
+
+        foreach (Rezerwacja rez in magazyn.Dane.Rezerwacje)
+        {
+            if (rez.Prowadzacy == wybranyProwadzacy)
+            {
+                MessageBox.Show("Nie można usunąć prowadzącego, który ma aktywne rezerwacje. Proszę najpierw usunąć jego rezerwacje.");
+                return;
+            }
+        }
+        magazyn.Dane.Prowadzacy.Remove(wybranyProwadzacy);
+        MessageBox.Show("Pomyślnie usunięto prowadzącego");
+    }
+
+    private void button_usunSale_Click(object sender, EventArgs e)
+    {
+        Sala wybranaSala = (Sala)listBox_infoSale.SelectedItem;
+
+        if (wybranaSala == null) return;
+
+        foreach (Rezerwacja rez in magazyn.Dane.Rezerwacje)
+        {
+            if (rez.Sala == wybranaSala)
+            {
+                MessageBox.Show("Nie można usunąć sali, która ma aktywne rezerwacje. Proszę najpierw usunąć jej rezerwacje.");
+                return;
+            }
+        }
+        magazyn.Dane.Sale.Remove(wybranaSala);
+        MessageBox.Show("Pomyślnie usunięto salę");
     }
 }

@@ -92,10 +92,13 @@ partial class Form1
         TabWszystkieInformacje = new TabPage();
         tabControl1 = new TabControl();
         Wydziały = new TabPage();
+        button_usunWydzial = new Button();
         listBox_infoWydzialy = new ListBox();
         Sale = new TabPage();
+        button_usunSale = new Button();
         listBox_infoSale = new ListBox();
         Prowadzący = new TabPage();
+        button_usunProwadzacego = new Button();
         listBox_infoProwadzacy = new ListBox();
         tab.SuspendLayout();
         TabDodajInformacje.SuspendLayout();
@@ -140,24 +143,25 @@ partial class Form1
         tab.Location = new Point(0, -1);
         tab.Name = "tab";
         tab.SelectedIndex = 0;
-        tab.Size = new Size(1025, 551);
+        tab.Size = new Size(1025, 507);
         tab.TabIndex = 2;
         // 
         // TabDodajInformacje
         // 
+        TabDodajInformacje.BackColor = Color.FromArgb(204, 213, 174);
         TabDodajInformacje.Controls.Add(groupBox3);
         TabDodajInformacje.Controls.Add(GroupBox_Sala);
         TabDodajInformacje.Controls.Add(GroupBox_Prowadzacy);
         TabDodajInformacje.Location = new Point(4, 24);
         TabDodajInformacje.Name = "TabDodajInformacje";
-        TabDodajInformacje.Size = new Size(1017, 523);
+        TabDodajInformacje.Size = new Size(1017, 479);
         TabDodajInformacje.TabIndex = 2;
         TabDodajInformacje.Text = "Dodaj informacje";
         TabDodajInformacje.ToolTipText = "sa;a";
-        TabDodajInformacje.UseVisualStyleBackColor = true;
         // 
         // groupBox3
         // 
+        groupBox3.BackColor = Color.FromArgb(250, 237, 205);
         groupBox3.Controls.Add(button_dodajWydzial);
         groupBox3.Controls.Add(textBox_dodajWydzialKod2);
         groupBox3.Controls.Add(label17);
@@ -171,7 +175,7 @@ partial class Form1
         groupBox3.Controls.Add(textBox_dodajWydzialMiasto);
         groupBox3.Controls.Add(textBox_dodajWydzialNazwa);
         groupBox3.Controls.Add(label6);
-        groupBox3.Location = new Point(713, 29);
+        groupBox3.Location = new Point(717, 51);
         groupBox3.Name = "groupBox3";
         groupBox3.Size = new Size(270, 355);
         groupBox3.TabIndex = 2;
@@ -180,7 +184,7 @@ partial class Form1
         // 
         // button_dodajWydzial
         // 
-        button_dodajWydzial.Location = new Point(81, 223);
+        button_dodajWydzial.Location = new Point(70, 242);
         button_dodajWydzial.Name = "button_dodajWydzial";
         button_dodajWydzial.Size = new Size(136, 90);
         button_dodajWydzial.TabIndex = 11;
@@ -280,6 +284,7 @@ partial class Form1
         // 
         // GroupBox_Sala
         // 
+        GroupBox_Sala.BackColor = Color.FromArgb(250, 237, 205);
         GroupBox_Sala.Controls.Add(label7);
         GroupBox_Sala.Controls.Add(textBox_iloscMiejsc);
         GroupBox_Sala.Controls.Add(ComboBox_TypSali);
@@ -289,7 +294,7 @@ partial class Form1
         GroupBox_Sala.Controls.Add(ComboBox_Wydzialy_dodajSale);
         GroupBox_Sala.Controls.Add(label3);
         GroupBox_Sala.Controls.Add(text_NumerSali);
-        GroupBox_Sala.Location = new Point(393, 29);
+        GroupBox_Sala.Location = new Point(382, 51);
         GroupBox_Sala.Name = "GroupBox_Sala";
         GroupBox_Sala.Size = new Size(266, 355);
         GroupBox_Sala.TabIndex = 1;
@@ -313,6 +318,7 @@ partial class Form1
         // 
         // ComboBox_TypSali
         // 
+        ComboBox_TypSali.DropDownStyle = ComboBoxStyle.DropDownList;
         ComboBox_TypSali.FormattingEnabled = true;
         ComboBox_TypSali.Location = new Point(110, 102);
         ComboBox_TypSali.Name = "ComboBox_TypSali";
@@ -329,7 +335,7 @@ partial class Form1
         // 
         // button_dodajSale
         // 
-        button_dodajSale.Location = new Point(72, 223);
+        button_dodajSale.Location = new Point(62, 242);
         button_dodajSale.Name = "button_dodajSale";
         button_dodajSale.Size = new Size(136, 90);
         button_dodajSale.TabIndex = 5;
@@ -347,6 +353,7 @@ partial class Form1
         // 
         // ComboBox_Wydzialy_dodajSale
         // 
+        ComboBox_Wydzialy_dodajSale.DropDownStyle = ComboBoxStyle.DropDownList;
         ComboBox_Wydzialy_dodajSale.FormattingEnabled = true;
         ComboBox_Wydzialy_dodajSale.Location = new Point(110, 44);
         ComboBox_Wydzialy_dodajSale.Name = "ComboBox_Wydzialy_dodajSale";
@@ -370,21 +377,22 @@ partial class Form1
         // 
         // GroupBox_Prowadzacy
         // 
+        GroupBox_Prowadzacy.BackColor = Color.FromArgb(250, 237, 205);
         GroupBox_Prowadzacy.Controls.Add(button_dodajProwadzacego);
         GroupBox_Prowadzacy.Controls.Add(textBox_nazwiskoProwadzacego);
         GroupBox_Prowadzacy.Controls.Add(textBox_imieProwadzacego);
         GroupBox_Prowadzacy.Controls.Add(label2);
         GroupBox_Prowadzacy.Controls.Add(LabelImie);
-        GroupBox_Prowadzacy.Location = new Point(34, 27);
+        GroupBox_Prowadzacy.Location = new Point(32, 51);
         GroupBox_Prowadzacy.Name = "GroupBox_Prowadzacy";
-        GroupBox_Prowadzacy.Size = new Size(310, 357);
+        GroupBox_Prowadzacy.Size = new Size(266, 355);
         GroupBox_Prowadzacy.TabIndex = 0;
         GroupBox_Prowadzacy.TabStop = false;
         GroupBox_Prowadzacy.Text = "Prowadzący";
         // 
         // button_dodajProwadzacego
         // 
-        button_dodajProwadzacego.Location = new Point(81, 225);
+        button_dodajProwadzacego.Location = new Point(59, 242);
         button_dodajProwadzacego.Name = "button_dodajProwadzacego";
         button_dodajProwadzacego.Size = new Size(136, 90);
         button_dodajProwadzacego.TabIndex = 4;
@@ -425,6 +433,7 @@ partial class Form1
         // TabZarezerwujSale
         // 
         TabZarezerwujSale.AutoScroll = true;
+        TabZarezerwujSale.BackColor = Color.FromArgb(204, 213, 174);
         TabZarezerwujSale.Controls.Add(button_zarezerwuj);
         TabZarezerwujSale.Controls.Add(listaSalNaWybranymWydziale);
         TabZarezerwujSale.Controls.Add(dateTimePicker_godzinaZakonczenia);
@@ -441,10 +450,9 @@ partial class Form1
         TabZarezerwujSale.Location = new Point(4, 24);
         TabZarezerwujSale.Name = "TabZarezerwujSale";
         TabZarezerwujSale.Padding = new Padding(3);
-        TabZarezerwujSale.Size = new Size(1017, 523);
+        TabZarezerwujSale.Size = new Size(1017, 479);
         TabZarezerwujSale.TabIndex = 0;
         TabZarezerwujSale.Text = "Zarezerwuj Sale";
-        TabZarezerwujSale.UseVisualStyleBackColor = true;
         // 
         // button_zarezerwuj
         // 
@@ -548,6 +556,7 @@ partial class Form1
         // 
         // TabZarzadzanieRezerwacjami
         // 
+        TabZarzadzanieRezerwacjami.BackColor = Color.FromArgb(204, 213, 174);
         TabZarzadzanieRezerwacjami.Controls.Add(label20);
         TabZarzadzanieRezerwacjami.Controls.Add(label19);
         TabZarzadzanieRezerwacjami.Controls.Add(label18);
@@ -561,10 +570,9 @@ partial class Form1
         TabZarzadzanieRezerwacjami.Location = new Point(4, 24);
         TabZarzadzanieRezerwacjami.Name = "TabZarzadzanieRezerwacjami";
         TabZarzadzanieRezerwacjami.Padding = new Padding(3);
-        TabZarzadzanieRezerwacjami.Size = new Size(1017, 523);
+        TabZarzadzanieRezerwacjami.Size = new Size(1017, 479);
         TabZarzadzanieRezerwacjami.TabIndex = 1;
         TabZarzadzanieRezerwacjami.Text = "Zarzadzanie Rezerwacjami";
-        TabZarzadzanieRezerwacjami.UseVisualStyleBackColor = true;
         // 
         // label20
         // 
@@ -663,7 +671,7 @@ partial class Form1
         TabWszystkieInformacje.Controls.Add(tabControl1);
         TabWszystkieInformacje.Location = new Point(4, 24);
         TabWszystkieInformacje.Name = "TabWszystkieInformacje";
-        TabWszystkieInformacje.Size = new Size(1017, 523);
+        TabWszystkieInformacje.Size = new Size(1017, 479);
         TabWszystkieInformacje.TabIndex = 3;
         TabWszystkieInformacje.Text = "Wszystkie informacje";
         TabWszystkieInformacje.UseVisualStyleBackColor = true;
@@ -676,67 +684,106 @@ partial class Form1
         tabControl1.Location = new Point(3, 3);
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
-        tabControl1.Size = new Size(992, 387);
+        tabControl1.Size = new Size(1018, 480);
         tabControl1.TabIndex = 0;
         // 
         // Wydziały
         // 
+        Wydziały.BackColor = Color.FromArgb(204, 213, 174);
+        Wydziały.Controls.Add(button_usunWydzial);
         Wydziały.Controls.Add(listBox_infoWydzialy);
         Wydziały.Location = new Point(4, 24);
         Wydziały.Name = "Wydziały";
-        Wydziały.Size = new Size(984, 359);
+        Wydziały.Size = new Size(1010, 452);
         Wydziały.TabIndex = 0;
         Wydziały.Text = "Wydziały";
-        Wydziały.UseVisualStyleBackColor = true;
+        // 
+        // button_usunWydzial
+        // 
+        button_usunWydzial.Location = new Point(915, 384);
+        button_usunWydzial.Name = "button_usunWydzial";
+        button_usunWydzial.Size = new Size(75, 48);
+        button_usunWydzial.TabIndex = 1;
+        button_usunWydzial.Text = "Usuń";
+        button_usunWydzial.UseVisualStyleBackColor = true;
+        button_usunWydzial.Click += button_usunWydzial_Click;
         // 
         // listBox_infoWydzialy
         // 
+        listBox_infoWydzialy.BackColor = Color.FromArgb(204, 213, 174);
+        listBox_infoWydzialy.BorderStyle = BorderStyle.FixedSingle;
         listBox_infoWydzialy.FormattingEnabled = true;
         listBox_infoWydzialy.Location = new Point(0, 0);
         listBox_infoWydzialy.Name = "listBox_infoWydzialy";
-        listBox_infoWydzialy.Size = new Size(984, 364);
+        listBox_infoWydzialy.Size = new Size(1007, 362);
         listBox_infoWydzialy.TabIndex = 0;
         // 
         // Sale
         // 
+        Sale.BackColor = Color.FromArgb(204, 213, 174);
+        Sale.Controls.Add(button_usunSale);
         Sale.Controls.Add(listBox_infoSale);
         Sale.Location = new Point(4, 24);
         Sale.Name = "Sale";
-        Sale.Size = new Size(984, 359);
+        Sale.Size = new Size(1010, 452);
         Sale.TabIndex = 1;
         Sale.Text = "Sale";
-        Sale.UseVisualStyleBackColor = true;
+        // 
+        // button_usunSale
+        // 
+        button_usunSale.Location = new Point(915, 384);
+        button_usunSale.Name = "button_usunSale";
+        button_usunSale.Size = new Size(75, 48);
+        button_usunSale.TabIndex = 1;
+        button_usunSale.Text = "Usuń";
+        button_usunSale.UseVisualStyleBackColor = true;
+        button_usunSale.Click += button_usunSale_Click;
         // 
         // listBox_infoSale
         // 
+        listBox_infoSale.BackColor = Color.FromArgb(204, 213, 174);
+        listBox_infoSale.BorderStyle = BorderStyle.FixedSingle;
         listBox_infoSale.FormattingEnabled = true;
         listBox_infoSale.Location = new Point(0, 0);
         listBox_infoSale.Name = "listBox_infoSale";
-        listBox_infoSale.Size = new Size(988, 364);
+        listBox_infoSale.Size = new Size(1007, 362);
         listBox_infoSale.TabIndex = 0;
         // 
         // Prowadzący
         // 
+        Prowadzący.BackColor = Color.FromArgb(204, 213, 174);
+        Prowadzący.Controls.Add(button_usunProwadzacego);
         Prowadzący.Controls.Add(listBox_infoProwadzacy);
         Prowadzący.Location = new Point(4, 24);
         Prowadzący.Name = "Prowadzący";
-        Prowadzący.Size = new Size(984, 359);
+        Prowadzący.Size = new Size(1010, 452);
         Prowadzący.TabIndex = 2;
         Prowadzący.Text = "Prowadzący";
-        Prowadzący.UseVisualStyleBackColor = true;
+        // 
+        // button_usunProwadzacego
+        // 
+        button_usunProwadzacego.Location = new Point(915, 384);
+        button_usunProwadzacego.Name = "button_usunProwadzacego";
+        button_usunProwadzacego.Size = new Size(75, 48);
+        button_usunProwadzacego.TabIndex = 1;
+        button_usunProwadzacego.Text = "Usuń";
+        button_usunProwadzacego.UseVisualStyleBackColor = true;
+        button_usunProwadzacego.Click += button_usunProwadzacego_Click;
         // 
         // listBox_infoProwadzacy
         // 
+        listBox_infoProwadzacy.BackColor = Color.FromArgb(204, 213, 174);
         listBox_infoProwadzacy.FormattingEnabled = true;
         listBox_infoProwadzacy.Location = new Point(0, 0);
         listBox_infoProwadzacy.Name = "listBox_infoProwadzacy";
-        listBox_infoProwadzacy.Size = new Size(988, 364);
+        listBox_infoProwadzacy.Size = new Size(1007, 364);
         listBox_infoProwadzacy.TabIndex = 0;
         // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
+        BackColor = SystemColors.ActiveCaption;
         ClientSize = new Size(1024, 505);
         Controls.Add(tab);
         MaximizeBox = false;
@@ -847,4 +894,7 @@ partial class Form1
     private ComboBox comboBox_FiltrProwadzacy;
     private Label label20;
     private Label label19;
+    private Button button_usunWydzial;
+    private Button button_usunSale;
+    private Button button_usunProwadzacego;
 }

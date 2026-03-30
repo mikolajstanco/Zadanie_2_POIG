@@ -5,6 +5,7 @@ public class Wydzial
     public string nazwa { get; set; }
     public Adres adres { get; set; }
 
+    public Wydzial() { }
     public Wydzial (string nazwa, Adres adres)
     {
         this.nazwa = nazwa;

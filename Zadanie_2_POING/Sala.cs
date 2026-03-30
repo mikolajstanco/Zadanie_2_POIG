@@ -7,6 +7,7 @@ public class Sala
     public int IloscMiejsc { get; set; }
     public string NumerSali { get; set; }
 
+    public Sala() { }
     public Sala(Wydzial nazwaWydzialu, TypSali typSali, int iloscMiejsc, string numerSali)
     {
         NazwaWydzialu = nazwaWydzialu;

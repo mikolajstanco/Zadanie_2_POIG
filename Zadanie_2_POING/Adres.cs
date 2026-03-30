@@ -7,6 +7,7 @@ public class Adres
     public int NumerBudynku { get; set; }
     public string KodPocztowy { get; set; }
 
+    public Adres() { }
     public Adres(string miasto, string ulica, int numerBudynku, string kodpocztowy)
     {
         Miasto = miasto;

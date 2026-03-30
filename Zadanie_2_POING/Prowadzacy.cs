@@ -2,17 +2,17 @@ namespace Zadanie_2_POIG;
 
 public class Prowadzacy
 {
-    public string imie { get; set; }
-    public string nazwisko { get; set; }
+    public string Imie { get; set; }
+    public string Nazwisko { get; set; }
     public Prowadzacy() { }
     public Prowadzacy(string imie, string nazwisko)
     {
-        this.imie = imie;
-        this.nazwisko = nazwisko;
+        this.Imie = imie;
+        this.Nazwisko = nazwisko;
     }
 
     public override string ToString()
     {
-        return imie + " " + nazwisko;
+        return Imie + " " + Nazwisko;
     }
 }

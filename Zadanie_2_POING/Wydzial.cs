@@ -2,26 +2,26 @@ namespace Zadanie_2_POIG;
 
 public class Wydzial
 {
-    public string nazwa { get; set; }
-    public Adres adres { get; set; }
+    public string Nazwa { get; set; }
+    public Adres Adres { get; set; }
 
     public Wydzial() { }
     public Wydzial (string nazwa, Adres adres)
     {
-        this.nazwa = nazwa;
-        this.adres = adres;
+        this.Nazwa = nazwa;
+        this.Adres = adres;
     }
 
     public override string ToString()
     {
-        return nazwa;
+        return Nazwa;
     }
 
     public string PelneDane
     {
         get
         {
-            return $"Nazwa: {nazwa} | Adres: {adres.Miasto}, {adres.KodPocztowy}, {adres.Ulica} {adres.NumerBudynku}";
+            return $"Nazwa: {Nazwa} | Adres: {Adres.Miasto}, {Adres.KodPocztowy}, {Adres.Ulica} {Adres.NumerBudynku}";
         }
     }
 }

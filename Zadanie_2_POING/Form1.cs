@@ -7,7 +7,7 @@ using System.Data;
 public partial class Form1 : Form
 {
     MagazynDanych magazyn = new MagazynDanych();
-
+    Walidator walidator = new Walidator();
     public Form1()
     {
         InitializeComponent();
@@ -115,19 +115,47 @@ public partial class Form1 : Form
     {
         string imie = textBox_imieProwadzacego.Text;
         string nazwisko = textBox_nazwiskoProwadzacego.Text;
+        string bledy = "";
 
-        // Dodajemy do magazynu! Zapis do pliku robi się SAM w tle.
+        if (!Walidator.CzyTylkoLitery(imie))
+            bledy += "Imię jest wymagane i może zawierać tylko litery.\n";
+
+        if (!Walidator.CzyTylkoLitery(nazwisko))
+            bledy += "Nazwisko jest wymagane i może zawierać tylko litery.\n";
+
+        if (bledy.Length > 0)
+        {
+            MessageBox.Show(bledy, "Błąd walidacji", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
         magazyn.Dane.Prowadzacy.Add(new Prowadzacy(imie, nazwisko));
 
         textBox_imieProwadzacego.Clear();
         textBox_nazwiskoProwadzacego.Clear();
         OdswiezFiltry();
+        MessageBox.Show("Dodano Prowadzącego!", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
     private void button_dodajSale_Click(object sender, EventArgs e)
     {
         string numerSali = text_NumerSali.Text;
-        int iloscMiejsc = int.Parse(textBox_iloscMiejsc.Text);
+        string miejscaTekst = textBox_iloscMiejsc.Text;
+        int iloscMiejsc;
+
+        string bledy = "";
+
+        if (!Walidator.CzyPoprawnyTekst(numerSali))
+            bledy += "Numer sali nie może być pusty.\n";
+
+        if (!Walidator.CzyPoprawnaLiczba(miejscaTekst, out iloscMiejsc))
+            bledy += "Ilość miejsc musi być liczbą całkowitą większą od zera.\n";
+
+        if (bledy.Length > 0)
+        {
+            MessageBox.Show(bledy, "Błąd walidacji", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
 
         magazyn.Dane.Sale.Add(new Sala((Wydzial)ComboBox_Wydzialy_dodajSale.SelectedItem, (TypSali)ComboBox_TypSali.SelectedItem, iloscMiejsc, numerSali));
 
@@ -159,11 +187,36 @@ public partial class Form1 : Form
         string miasto = textBox_dodajWydzialMiasto.Text;
         string kod1 = textBox_dodajWydzialKod1.Text;
         string kod2 = textBox_dodajWydzialKod2.Text;
-        string kod = kod1 + "-" + kod2;
         string ulica = textBox_dodajWydzialUlica.Text;
-        string numer = textBox_dodajWydzialNumer.Text;
 
-        magazyn.Dane.Wydzialy.Add(new Wydzial(nazwaWydzialu, new Adres(miasto, ulica, int.Parse(numer), kod)));
+        int numerBudynku;
+        string bledy = "";
+
+        // Sprawdzamy wszystkie pola po kolei
+        if (!Walidator.CzyPoprawnyTekst(nazwaWydzialu))
+            bledy += "Nazwa wydziału jest wymagana.\n";
+
+        if (!Walidator.CzyTylkoLitery(miasto))
+            bledy += "Miasto jest wymagane i może zawierać tylko litery.\n";
+
+        if (!Walidator.CzyPoprawnyTekst(ulica))
+            bledy += "Ulica jest wymagana.\n";
+
+        if (!Walidator.CzyPoprawnaLiczba(textBox_dodajWydzialNumer.Text, out numerBudynku))
+            bledy += "Numer budynku musi być liczbą całkowitą większą od zera.\n";
+
+        if (!Walidator.CzyPoprawnyKodPocztowy(kod1, kod2))
+            bledy += "Kod pocztowy musi składać się z 2 cyfr, myślnika i 3 cyfr.\n";
+
+        // Jeśli były jakieś błędy, przerywamy
+        if (bledy.Length > 0)
+        {
+            MessageBox.Show(bledy, "Błąd walidacji", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        string kod = kod1 + "-" + kod2;
+        magazyn.Dane.Wydzialy.Add(new Wydzial(nazwaWydzialu, new Adres(miasto, ulica, numerBudynku, kod)));
 
         textBox_dodajWydzialNazwa.Clear();
         textBox_dodajWydzialMiasto.Clear();
@@ -172,37 +225,63 @@ public partial class Form1 : Form
         textBox_dodajWydzialUlica.Clear();
         textBox_dodajWydzialNumer.Clear();
         OdswiezFiltry();
+        MessageBox.Show("Dodano Wydział!", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
     private void button_zarezerwuj_Click(object sender, EventArgs e)
     {
+        string bledy = "";
+
+        if (comboBox_prowadzacyRezerwacja.SelectedItem == null) bledy += "Wybierz prowadzącego.\n";
+        if (combo_box_wydzialRezerwacja.SelectedItem == null) bledy += "Wybierz wydział.\n";
+        if (listaSalNaWybranymWydziale.SelectedItem == null) bledy += "Wybierz salę.\n";
+
+        DateOnly data = DateOnly.FromDateTime(dateTimePicker1.Value);
+        if (data < DateOnly.FromDateTime(DateTime.Now))
+            bledy += "Data rezerwacji nie może być datą z przeszłości.\n";
+
+        TimeOnly godzinaRozpoczecia;
+        TimeOnly godzinaZakonczenia;
+
+        bool czasRozpOk = TimeOnly.TryParse(dateTimePicker_godzinaRozpoczecia.Text, out godzinaRozpoczecia);
+        bool czasZakOk = TimeOnly.TryParse(dateTimePicker_godzinaZakonczenia.Text, out godzinaZakonczenia);
+
+        if (!czasRozpOk || !czasZakOk)
+        {
+            bledy += "Nieprawidłowy format czasu.\n";
+        }
+        else if (godzinaRozpoczecia >= godzinaZakonczenia)
+        {
+            bledy += "Godzina zakończenia musi być późniejsza niż godzina rozpoczęcia.\n";
+        }
+
+        if (bledy.Length > 0)
+        {
+            MessageBox.Show(bledy, "Błąd walidacji", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
         Prowadzacy prowadzacy = (Prowadzacy)comboBox_prowadzacyRezerwacja.SelectedItem;
         Wydzial wydzial = (Wydzial)combo_box_wydzialRezerwacja.SelectedItem;
-        DateOnly data = DateOnly.FromDateTime(dateTimePicker1.Value);
-        TimeOnly godzinaRozpoczecia = TimeOnly.Parse(dateTimePicker_godzinaRozpoczecia.Text);
-        TimeOnly godzinaZakonczenia = TimeOnly.Parse(dateTimePicker_godzinaZakonczenia.Text);
+        Sala wybranaSala = (Sala)listaSalNaWybranymWydziale.SelectedItem;
 
         foreach (Rezerwacja rezka in magazyn.Dane.Rezerwacje)
         {
-            if (rezka.Sala == (Sala)listaSalNaWybranymWydziale.SelectedItem && rezka.Data == data)
+            if (rezka.Sala == wybranaSala && rezka.Data == data)
             {
                 if ((godzinaRozpoczecia >= rezka.GodzinaRozpoczecia && godzinaRozpoczecia < rezka.GodzinaZakonczenia) ||
                     (godzinaZakonczenia > rezka.GodzinaRozpoczecia && godzinaZakonczenia <= rezka.GodzinaZakonczenia) ||
                     (godzinaRozpoczecia <= rezka.GodzinaRozpoczecia && godzinaZakonczenia >= rezka.GodzinaZakonczenia))
                 {
-                    MessageBox.Show("Wybrana sala jest już zarezerwowana w tym terminie. Proszę wybrać inną salę lub zmienić datę/godzinę rezerwacji.");
+                    MessageBox.Show("Wybrana sala jest już zarezerwowana w tym terminie. Proszę wybrać inną salę lub zmienić datę/godzinę rezerwacji.", "Konflikt terminów", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
         }
 
-        magazyn.Dane.Rezerwacje.Add(new Rezerwacja(prowadzacy, wydzial, (Sala)listaSalNaWybranymWydziale.SelectedItem, data, godzinaRozpoczecia, godzinaZakonczenia));
-        MessageBox.Show("Pomyślnie zarezerwowano salę");
-    }
-
-    private void listaSalNaWybranymWydziale_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        //Twoja stara logika
+        // 5. Wszystko się zgadza, rezerwujemy!
+        magazyn.Dane.Rezerwacje.Add(new Rezerwacja(prowadzacy, wydzial, wybranaSala, data, godzinaRozpoczecia, godzinaZakonczenia));
+        MessageBox.Show("Pomyślnie zarezerwowano salę", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
     private void button1_Click(object sender, EventArgs e)
@@ -214,9 +293,6 @@ public partial class Form1 : Form
             button_Szukaj_Click(null, null);
         }
     }
-
-    private void button2_Click(object sender, EventArgs e) { }
-    private void comboBox_FiltrTypSali_SelectedIndexChanged(object sender, EventArgs e) { }
 
     private void button_usunWydzial_Click(object sender, EventArgs e)
     {
@@ -249,6 +325,8 @@ public partial class Form1 : Form
 
             MessageBox.Show("Pomyślnie usunięto wydział i sale");
         }
+        OdswiezFiltry();
+
     }
 
     private void button_usunProwadzacego_Click(object sender, EventArgs e)
@@ -267,6 +345,7 @@ public partial class Form1 : Form
         }
         magazyn.Dane.Prowadzacy.Remove(wybranyProwadzacy);
         MessageBox.Show("Pomyślnie usunięto prowadzącego");
+        OdswiezFiltry();
     }
 
     private void button_usunSale_Click(object sender, EventArgs e)
@@ -285,5 +364,6 @@ public partial class Form1 : Form
         }
         magazyn.Dane.Sale.Remove(wybranaSala);
         MessageBox.Show("Pomyślnie usunięto salę");
+        OdswiezFiltry();
     }
 }

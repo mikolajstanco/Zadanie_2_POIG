@@ -118,6 +118,7 @@ partial class Form1
         // 
         // combo_box_wydzialRezerwacja
         // 
+        combo_box_wydzialRezerwacja.DropDownStyle = ComboBoxStyle.DropDownList;
         combo_box_wydzialRezerwacja.FormattingEnabled = true;
         combo_box_wydzialRezerwacja.Location = new Point(141, 137);
         combo_box_wydzialRezerwacja.Name = "combo_box_wydzialRezerwacja";
@@ -472,7 +473,7 @@ partial class Form1
         listaSalNaWybranymWydziale.Name = "listaSalNaWybranymWydziale";
         listaSalNaWybranymWydziale.Size = new Size(384, 409);
         listaSalNaWybranymWydziale.TabIndex = 12;
-        listaSalNaWybranymWydziale.SelectedIndexChanged += listaSalNaWybranymWydziale_SelectedIndexChanged;
+        //listaSalNaWybranymWydziale.SelectedIndexChanged += listaSalNaWybranymWydziale_SelectedIndexChanged;
         // 
         // salaBindingSource
         // 
@@ -536,10 +537,10 @@ partial class Form1
         label9.Size = new Size(60, 23);
         label9.TabIndex = 5;
         label9.Text = "Sala";
-        label9.Click += label9_Click;
         // 
         // comboBox_prowadzacyRezerwacja
         // 
+        comboBox_prowadzacyRezerwacja.DropDownStyle = ComboBoxStyle.DropDownList;
         comboBox_prowadzacyRezerwacja.FormattingEnabled = true;
         comboBox_prowadzacyRezerwacja.Location = new Point(141, 98);
         comboBox_prowadzacyRezerwacja.Name = "comboBox_prowadzacyRezerwacja";
@@ -620,15 +621,17 @@ partial class Form1
         // 
         // comboBox_FiltrTypSali
         // 
+        comboBox_FiltrTypSali.DropDownStyle = ComboBoxStyle.DropDownList;
         comboBox_FiltrTypSali.FormattingEnabled = true;
         comboBox_FiltrTypSali.Location = new Point(441, 46);
         comboBox_FiltrTypSali.Name = "comboBox_FiltrTypSali";
         comboBox_FiltrTypSali.Size = new Size(154, 23);
         comboBox_FiltrTypSali.TabIndex = 4;
-        comboBox_FiltrTypSali.SelectedIndexChanged += comboBox_FiltrTypSali_SelectedIndexChanged;
+        //comboBox_FiltrTypSali.SelectedIndexChanged += comboBox_FiltrTypSali_SelectedIndexChanged;
         // 
         // comboBox_FiltrWydzial
         // 
+        comboBox_FiltrWydzial.DropDownStyle = ComboBoxStyle.DropDownList;
         comboBox_FiltrWydzial.FormattingEnabled = true;
         comboBox_FiltrWydzial.Location = new Point(213, 46);
         comboBox_FiltrWydzial.Name = "comboBox_FiltrWydzial";
@@ -637,6 +640,7 @@ partial class Form1
         // 
         // comboBox_FiltrProwadzacy
         // 
+        comboBox_FiltrProwadzacy.DropDownStyle = ComboBoxStyle.DropDownList;
         comboBox_FiltrProwadzacy.FormattingEnabled = true;
         comboBox_FiltrProwadzacy.Location = new Point(8, 46);
         comboBox_FiltrProwadzacy.Name = "comboBox_FiltrProwadzacy";
@@ -773,10 +777,11 @@ partial class Form1
         // listBox_infoProwadzacy
         // 
         listBox_infoProwadzacy.BackColor = Color.FromArgb(204, 213, 174);
+        listBox_infoProwadzacy.BorderStyle = BorderStyle.FixedSingle;
         listBox_infoProwadzacy.FormattingEnabled = true;
         listBox_infoProwadzacy.Location = new Point(0, 0);
         listBox_infoProwadzacy.Name = "listBox_infoProwadzacy";
-        listBox_infoProwadzacy.Size = new Size(1007, 364);
+        listBox_infoProwadzacy.Size = new Size(1007, 362);
         listBox_infoProwadzacy.TabIndex = 0;
         // 
         // Form1

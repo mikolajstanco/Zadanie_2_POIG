@@ -1,15 +1,17 @@
-namespace Zadanie_2_POING;
+namespace Zadanie_2_POIG;
 
 public class Adres
 {
-    public string miasto { get; set; }
-    public string ulica { get; set; }
-    public int numerBudynku { get; set; }
+    public string Miasto { get; set; }
+    public string Ulica { get; set; }
+    public int NumerBudynku { get; set; }
+    public string KodPocztowy { get; set; }
 
-    public Adres(string miasto, string ulica, int numerBudynku)
+    public Adres(string miasto, string ulica, int numerBudynku, string kodpocztowy)
     {
-        this.miasto = miasto;
-        this.ulica = ulica;
-        this.numerBudynku = numerBudynku;
+        Miasto = miasto;
+        Ulica = ulica;
+        NumerBudynku = numerBudynku;
+        KodPocztowy = kodpocztowy;
     }
 }

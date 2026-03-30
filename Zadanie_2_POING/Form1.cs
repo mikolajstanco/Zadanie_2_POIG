@@ -1,42 +1,46 @@
-namespace Zadanie_2_POING;
+namespace Zadanie_2_POIG;
+
+using System.ComponentModel;
 
 public partial class Form1 : Form
 {
-    List<Wydzial> listWydzialow = new List<Wydzial>();
-    List<Prowadzacy> listaProwadzacych = new List<Prowadzacy>();
-    List<Sala> listaSal = new List<Sala>();
-    List<Rezerwacja> listaRezerwacji = new List<Rezerwacja>();
+    BindingList<Wydzial> listaWydzialow = new BindingList<Wydzial>();
+    BindingList<Prowadzacy> listaProwadzacych = new BindingList<Prowadzacy>();
+    BindingList<Sala> listaSal = new BindingList<Sala>();
+    BindingList<Rezerwacja> listaRezerwacji = new BindingList<Rezerwacja>();
     public Form1()
     {
         InitializeComponent();
 
 
         // Testowe Obiekty
-        Wydzial testowyWydzial = new Wydzial("Testowy Wydział", new Adres("Gliwice", "Majonezowa", 13));
+        Wydzial testowyWydzial = new Wydzial("Testowy Wydział", new Adres("Gliwice", "Majonezowa", 13, "44-100"));
         Prowadzacy testowyProwadzacy = new Prowadzacy("Grzegorz", "Brzęczyszczykiewicz");
         listaSal.Add(new Sala(testowyWydzial, TypSali.Komputerowa, 13, "37a"));
         listaProwadzacych.Add(testowyProwadzacy);
-        
+
         DateOnly data = new DateOnly(2024, 6, 20);
         TimeOnly godzinaRozpoczecia = new TimeOnly(10, 0);
         TimeOnly godzinaZakonczenia = new TimeOnly(12, 0);
 
-        listaRezerwacji.Add(new Rezerwacja(testowyWydzial, listaSal[0], data, godzinaRozpoczecia, godzinaZakonczenia));
+        listaRezerwacji.Add(new Rezerwacja(testowyProwadzacy, testowyWydzial, listaSal[0], data, godzinaRozpoczecia, godzinaZakonczenia));
 
 
-        listWydzialow.Add(new Wydzial("Matematyki Stosowanej", new Adres("Gliwice", "Kaszubska", 23)));
-        listWydzialow.Add(new Wydzial("Automatyki Elektroniki i Informatyki", new Adres("Gliwice", "Akademicka", 16)));
-        listWydzialow.Add(new Wydzial("Budownictwa", new Adres("Gliwice", "Akademicka", 5)));
+        listaWydzialow.Add(new Wydzial("Matematyki Stosowanej", new Adres("Gliwice", "Kaszubska", 23, "44-100")));
+        listaWydzialow.Add(new Wydzial("Automatyki Elektroniki i Informatyki", new Adres("Gliwice", "Akademicka", 16, "44-100")));
+        listaWydzialow.Add(new Wydzial("Budownictwa", new Adres("Gliwice", "Akademicka", 5, "44-100")));
 
 
 
         //Dodaj informacje
-        ComboBox_Wydzialy_dodajSale.DataSource = listWydzialow;
+        ComboBox_Wydzialy_dodajSale.DataSource = listaWydzialow;
         ComboBox_TypSali.DataSource = Enum.GetValues(typeof(TypSali));
         //Rezerwacja
-        combo_box_wydzialRezerwacja.DataSource = listWydzialow;
+        combo_box_wydzialRezerwacja.DataSource = listaWydzialow;
         comboBox_prowadzacyRezerwacja.DataSource = listaProwadzacych;
         //comboBox_salaRezerwacja.DataSource = listaSal;
+
+        listBox_rezerwacjeAll.DataSource = listaRezerwacji;
 
     }
 
@@ -51,6 +55,9 @@ public partial class Form1 : Form
         string nazwisko = textBox_nazwiskoProwadzacego.Text;
 
         listaProwadzacych.Add(new Prowadzacy(imie, nazwisko));
+
+        textBox_imieProwadzacego.Clear();
+        textBox_nazwiskoProwadzacego.Clear();
         //string lista = "";
         //foreach (Prowadzacy prowadzacy in listaProwadzacych)
         //{
@@ -67,6 +74,10 @@ public partial class Form1 : Form
         int iloscMiejsc = int.Parse(textBox_iloscMiejsc.Text);
 
         listaSal.Add(new Sala((Wydzial)ComboBox_Wydzialy_dodajSale.SelectedItem, (TypSali)ComboBox_TypSali.SelectedItem, iloscMiejsc, numerSali));
+
+
+        text_NumerSali.Clear();
+        textBox_iloscMiejsc.Clear();
 
         //string lista = "";
         //foreach (Sala sala in listaSal)
@@ -98,5 +109,37 @@ public partial class Form1 : Form
         }
 
         listaSalNaWybranymWydziale.DataSource = listaSalNaWydziale;
+    }
+
+    private void button_dodajWydzial_Click(object sender, EventArgs e)
+    {
+        string nazwaWydzialu = textBox_dodajWydzialNazwa.Text;
+        string miasto = textBox_dodajWydzialMiasto.Text;
+        string kod1 = textBox_dodajWydzialKod1.Text;
+        string kod2 = textBox_dodajWydzialKod2.Text;
+        string kod = kod1 + "-" + kod2;
+        string ulica = textBox_dodajWydzialUlica.Text;
+        string numer = textBox_dodajWydzialNumer.Text;
+
+        listaWydzialow.Add(new Wydzial(nazwaWydzialu, new Adres(miasto, ulica, int.Parse(numer), kod)));
+
+        textBox_dodajWydzialNazwa.Clear();
+        textBox_dodajWydzialMiasto.Clear();
+        textBox_dodajWydzialKod1.Clear();
+        textBox_dodajWydzialKod2.Clear();
+        textBox_dodajWydzialUlica.Clear();
+        textBox_dodajWydzialNumer.Clear();
+    }
+
+    private void button_zarezerwuj_Click(object sender, EventArgs e)
+    {
+        Prowadzacy prowadzacy = (Prowadzacy)comboBox_prowadzacyRezerwacja.SelectedItem;
+        Wydzial wydzial = (Wydzial)combo_box_wydzialRezerwacja.SelectedItem;
+        DateOnly data = DateOnly.FromDateTime(dateTimePicker1.Value);
+        TimeOnly godzinaRozpoczecia = TimeOnly.Parse(dateTimePicker_godzinaRozpoczecia.Text);
+        TimeOnly godzinaZakonczenia = TimeOnly.Parse(dateTimePicker_godzinaZakonczenia.Text);
+
+        listaRezerwacji.Add(new Rezerwacja(prowadzacy, wydzial, (Sala)listaSalNaWybranymWydziale.SelectedItem, data, godzinaRozpoczecia, godzinaZakonczenia));
+
     }
 }

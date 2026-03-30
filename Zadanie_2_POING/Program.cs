@@ -1,4 +1,4 @@
-namespace Zadanie_2_POING;
+namespace Zadanie_2_POIG;
 
 static class Program
 {
